@@ -16,18 +16,25 @@ def send_alert(message: str, task_id: str):
 
 @task()
 def start_alert():
-    return send_alert(":rocket: El DAG (comparar_referencias) ha comenzado.", "start_alert").execute(context={})
+    return send_alert(
+        ":rocket: El DAG *comparar_referencias* ha comenzado.",
+        "start_alert"
+    ).execute(context={})
 
 @task()
-def success_alert(result):
+def success_alert(result: dict):
     message = (
-        f":white_check_mark: DAG finalizado exitosamente.\n"
+        ":white_check_mark: DAG *comparar_referencias* finalizado exitosamente.\n"
         f"• Coincidencias encontradas: *{result['coincidencias']}*\n"
-        f"• Diferencias en tabla 1: *{result['diferencias_tabla1']}*\n"
-        f"• Diferencias en tabla 2: *{result['diferencias_tabla2']}*"
+        f"• Registros a favor: *{result['a_favor']}* (Suma MONTO: *{result['suma_monto']}*)\n"
+        f"• Registros en contra: *{result['en_contra']}* (Suma NumAbono: *{result['suma_abono']}*)\n"
+        f"• Archivo generado: {result['archivo_gcs']}"
     )
     return send_alert(message, "success_alert").execute(context={})
 
 @task(trigger_rule=TriggerRule.ONE_FAILED)
 def failure_alert():
-    return send_alert(":red_circle: El DAG (comparar_referencias) ha fallado.", "failure_alert").execute(context={})
+    return send_alert(
+        ":red_circle: El DAG *comparar_referencias* ha fallado.",
+        "failure_alert"
+    ).execute(context={})
