@@ -1,0 +1,11 @@
+{
+    "name" : "comparacion_pagaqui_vs_siv",
+    "source_conn_id" : "admin_pagaqui_conn",
+    "target_conn_id" : "admin_siv_conn",
+    "fecha_inicio" : "2025-05-21 00:00:00.000",
+    "fecha_final" : "2025-05-21 23:59:59.997",
+    "query_source": "SELECT pe.id AS ID, pe.date AS FECHA, e.name AS ENTIDAD, b.name AS BANCO, pe.referencia AS REFERENCIA, pe.amount AS MONTO, pe.ta AS MONTO_TA, PE.FK_entitiesRFC, pe.FK_pay_notification FROM pay_entities pe INNER JOIN banks b ON b.id = pe.FK_banks INNER JOIN entities e ON e.id = pe.FK_entities WHERE FK_banks = 38 AND pe.date BETWEEN '{fecha_inicio}' AND '{fecha_fin}' ORDER BY pe.date DESC",
+    "query_target": "SELECT NumTransaccion_id, NumAbono, StrReferencia, StrConcepto, NumValidadoPor_id, DteCreacion, StrDescripcion, NumEntidad_id FROM EstadosCuentaBancarios WHERE DteValidacion BETWEEN '{fecha_inicio}' AND '{fecha_fin}' AND NumCuentaBancaria_id = 19",
+    "campo_comparacion_source": "REFERENCIA",
+    "campo_comparacion_target": "StrReferencia"
+}
