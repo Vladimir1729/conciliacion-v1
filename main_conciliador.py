@@ -2,7 +2,7 @@ import os
 from airflow.decorators import dag
 from datetime import datetime
 from slack_alerts import start_alert, success_alert, failure_alert
-from comparador_tasks import comparar_referencias
+from dag_comparador import comparar_referencias
 
 
 #Ruta del directorio donde están los JSON
